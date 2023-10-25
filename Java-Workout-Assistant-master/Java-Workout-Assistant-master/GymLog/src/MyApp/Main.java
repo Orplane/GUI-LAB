@@ -89,11 +89,11 @@ public class Main extends javax.swing.JFrame {
         setsTxt = new javax.swing.JTextField();
         breakIntervalTxt = new javax.swing.JTextField();
         executionTimeTxt = new javax.swing.JTextField();
-        exerciseNameTxt = new javax.swing.JTextField();
         addExerciseBtn = new javax.swing.JLabel();
         addRoutineBtn = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         exercisesCount = new javax.swing.JLabel();
+        exerciseNameCombo = new javax.swing.JComboBox<>();
         activityScreen = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -322,11 +322,6 @@ public class Main extends javax.swing.JFrame {
         executionTimeTxt.setText("0");
         executionTimeTxt.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
 
-        exerciseNameTxt.setBackground(new java.awt.Color(32, 32, 32));
-        exerciseNameTxt.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
-        exerciseNameTxt.setForeground(new java.awt.Color(255, 255, 255));
-        exerciseNameTxt.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
-
         addExerciseBtn.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
         addExerciseBtn.setForeground(new java.awt.Color(255, 255, 255));
         addExerciseBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MyIcons/plus.png"))); // NOI18N
@@ -358,6 +353,9 @@ public class Main extends javax.swing.JFrame {
         exercisesCount.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         exercisesCount.setForeground(new java.awt.Color(255, 255, 255));
         exercisesCount.setText("0");
+
+        exerciseNameCombo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        exerciseNameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Exercise", "Deadlift", "Calf Raises", "Squats", "Leg Press", "Leg Curls", "Bicep Curls", "Hammer Curls", "Tricep Extension", "Lateral Raise", "Front Raise" }));
 
         javax.swing.GroupLayout addRoutineScreenLayout = new javax.swing.GroupLayout(addRoutineScreen);
         addRoutineScreen.setLayout(addRoutineScreenLayout);
@@ -391,7 +389,8 @@ public class Main extends javax.swing.JFrame {
                                 .addGroup(addRoutineScreenLayout.createSequentialGroup()
                                     .addComponent(jLabel8)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(exerciseNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(exerciseNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(1, 1, 1))
                                 .addGroup(addRoutineScreenLayout.createSequentialGroup()
                                     .addComponent(jLabel6)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -403,7 +402,7 @@ public class Main extends javax.swing.JFrame {
                                         .addComponent(routineNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGap(40, 40, 40)
                             .addComponent(addRoutineBtn))))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
         addRoutineScreenLayout.setVerticalGroup(
             addRoutineScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,8 +423,8 @@ public class Main extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(addRoutineScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(exerciseNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(exerciseNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
                 .addGroup(addRoutineScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(setsTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
@@ -438,7 +437,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(executionTimeTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(addExerciseBtn))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         mainScreen.add(addRoutineScreen, "addRoutineScreen");
@@ -659,7 +658,7 @@ public class Main extends javax.swing.JFrame {
             }
             
             // Add Exercise Button
-            String name = exerciseNameTxt.getText();
+            String name = exerciseNameCombo.getSelectedItem().toString();
             int sets = Integer.parseInt(setsTxt.getText());
             float breakInterval = Float.parseFloat(breakIntervalTxt.getText());
             float execTime = Float.parseFloat(executionTimeTxt.getText());
@@ -668,7 +667,7 @@ public class Main extends javax.swing.JFrame {
             
             tempRoutine.getExercises().add(tempExer);
             
-            exerciseNameTxt.setText("");
+            exerciseNameCombo.setSelectedIndex(0);
             setsTxt.setText("0");
             breakIntervalTxt.setText("0");
             executionTimeTxt.setText("0");
@@ -732,7 +731,7 @@ public class Main extends javax.swing.JFrame {
             // Check if there are exercises
             if (tempRoutine.getExercises().size() < 1) return false;
         } else {
-            if (exerciseNameTxt.getText().isEmpty()) return false;
+            if (exerciseNameCombo.getSelectedItem().toString() == "Choose Exercise") return false;
             else if (setsTxt.getText().isEmpty() || setsTxt.getText().equals("0")) return false;
             else if (breakIntervalTxt.getText().isEmpty() || breakIntervalTxt.getText().equals("0")) return false;
             else if (executionTimeTxt.getText().isEmpty() || executionTimeTxt.getText().equals("0")) return false;
@@ -870,7 +869,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField breakIntervalTxt;
     private javax.swing.JPanel divider;
     private javax.swing.JTextField executionTimeTxt;
-    private javax.swing.JTextField exerciseNameTxt;
+    private javax.swing.JComboBox<String> exerciseNameCombo;
     private javax.swing.JLabel exercisesCount;
     private javax.swing.JMenuItem homeMenu;
     private javax.swing.JLabel jLabel1;
